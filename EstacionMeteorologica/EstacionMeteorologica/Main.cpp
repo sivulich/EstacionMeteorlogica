@@ -1,3 +1,6 @@
+
+
+
 int main(void)
 {
 	/*
@@ -27,7 +30,8 @@ int main(void)
 				monitor.reset();
 				exit=true;
 				break;
-			case EMERGENCY_SHITDOWN:
+			case EMERGENCY_SHUTDOWN:
+				system("shutdown -now"); //lookup real command
 				exit(1);
 			case SOFTWARE_UPDATE:
 				network.getUpdate();
