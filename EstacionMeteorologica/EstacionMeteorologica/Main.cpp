@@ -1,10 +1,8 @@
-#pragma once
 
 
 
-
-//int main(void)
-//{
+int main(void)
+{
 	/*
 	bool exit=false;
 	network.init();
@@ -32,7 +30,8 @@
 				monitor.reset();
 				exit=true;
 				break;
-			case EMERGENCY_SHITDOWN:
+			case EMERGENCY_SHUTDOWN:
+				system("shutdown -now"); //lookup real command
 				exit(1);
 			case SOFTWARE_UPDATE:
 				network.getUpdate();
@@ -47,5 +46,5 @@
 	}
 
 	*/
-//	return 0;
-//}
+	return 0;
+}
