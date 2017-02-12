@@ -1,8 +1,10 @@
 #pragma once
 
 
-int main(void)
-{
+
+
+//int main(void)
+//{
 	/*
 	bool exit=false;
 	network.init();
@@ -45,5 +47,5 @@ int main(void)
 	}
 
 	*/
-	return 0;
-}
+//	return 0;
+//}
