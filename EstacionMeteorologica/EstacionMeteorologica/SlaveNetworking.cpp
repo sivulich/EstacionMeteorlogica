@@ -9,6 +9,7 @@ SlaveNetworking::SlaveNetworking()
 
 SlaveNetworking::~SlaveNetworking()
 {
+	cout << "Destroying evet.." << endl;
 	if (ev != nullptr) delete ev;
 }
 
@@ -21,20 +22,28 @@ SlaveNetworking::init()
 bool
 SlaveNetworking::hayEvento()
 {
+	bool retVal = true;
 	char c = getchar();
-	if (c == 'P')
+	Event * ev;
+	switch (c)
 	{
-		Event * ev = new Event(PING);
+	case 'P':
+		ev = new Event(PING_BROADCAST);
 		this->ev = ev;
-		return true;
-	}
-	else if(c == 'Q')
-	{
-		Event * ev = new Event(QUIT);
+		break;
+	case 'E':
+		ev = new Event(EMERGENCY_SHUTDOWN);
 		this->ev = ev;
-		return true;
+		break;
+	case 'C':
+		ev = new Event(CONNECT_TO_SLAVE);
+		this->ev = ev;
+		break;
+	default:
+		retVal = false;
+		break;
 	}
-	return false;
+	return retVal;
 }
 
 Event
