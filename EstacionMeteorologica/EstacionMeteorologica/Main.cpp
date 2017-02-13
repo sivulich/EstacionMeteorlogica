@@ -1,23 +1,37 @@
-
-
+#include "configs.h"
+#include "SlaveNetworking.h"
+#include "Event.h"
+#include "Slave.h"
 
 int main(void)
 {
-	/*
+	
 	bool exit=false;
+	SlaveNetworking network;
 	network.init();
+
+	Slave sensors;
 	sensors.init();
-	monitor.init();
+	//monitor.init();
 	while(exit ==false)
 	{
-		whlie(network.hayEvento()==false);
-		event in=network.getEvent();
+		while(network.hayEvento()==false);
+		Event in=network.getEvent();
 		switch (in.type())
 		{
 			case PING:
-				network.sendSerial();
+				cout << "Receive a ping packet" << endl;
+				//exit = true;
+				//network.sendSerial();
 				break;
-			case CONNECT_TO_SLAVE:
+			case QUIT:
+				cout << "Quitting..." << endl;
+				exit = true;
+				getchar();
+				getchar();
+				//network.sendSerial();
+				break;
+			/*case CONNECT_TO_SLAVE:
 				network.sendConnectAck();
 				break;
 			case GET_STATUS:
@@ -40,11 +54,9 @@ int main(void)
 				break;
 			case REQUEST_SENSOR_LIST:
 				network.sendSensorList(sensors.getList());
-				break;
+				break;*/
 
 		}
 	}
-
-	*/
 	return 0;
 }

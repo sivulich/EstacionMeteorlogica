@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <cmath>
+#include <ctype.h>
 #include <iostream>	
 #include <iomanip>
 #include <thread>

@@ -1,11 +1,12 @@
 #pragma once
 
 #include "configs.h"
+typedef enum {PING,QUIT}ev_type;
 
 class Event{
 public:
-	Event(int ID) { this->ID=ID; };
-	int type() { return ID; };
+	Event(ev_type ID) { this->ID=ID; };
+	ev_type type() { return ID; };
 private:
-	int ID;
+	ev_type ID;
 };
