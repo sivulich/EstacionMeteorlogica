@@ -14,5 +14,16 @@ public:
 protected:
 	uint8_t sensor_number;
 	uint8_t data_type;
+	union data
+	{	
+		int dataI;
+		long dataL;
+		long long dataLL;
+		unsigned int dataU;
+		long unsigned dataUL;
+		long long unsigned dataULL;
+		float dataF;
+		double dataD;
+	};
 };
 
