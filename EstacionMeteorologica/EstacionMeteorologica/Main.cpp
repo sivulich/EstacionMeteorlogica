@@ -5,56 +5,47 @@
 
 int main(void)
 {
-	
-	bool exit=false;
-	SlaveNetworking network;
-	network.init();
+	bool quit=false;
 
 	Slave sensors;
 	sensors.init();
 	//monitor.init();
-	while(exit ==false)
+	while(quit ==false)
 	{
+		SlaveNetworking network;
+		network.init();				//check this, the slave networking makes a new of the event
 		while(network.hayEvento()==false);
 		Event in=network.getEvent();
 		switch (in.type())
 		{
-			case PING:
-				cout << "Receive a ping packet" << endl;
-				//exit = true;
+			case PING_BROADCAST:
+				cout << "Receive a ping broadcast" << endl;
 				network.sendSerial();
 				break;
-			case QUIT:
-				cout << "Quitting..." << endl;
-				exit = true;
-				getchar();
-				getchar();
-				//network.sendSerial();
-				break;
-			/*case CONNECT_TO_SLAVE:
+			case CONNECT_TO_SLAVE:
 				network.sendConnectAck();
 				break;
 			case GET_STATUS:
-				network.sendStatus(monitor.getStatus());
+				//network.sendStatus(monitor.getStatus());
 				break;
 			case DATA_REQUEST:
 				network.sendData(sensors.getData());
 				break;
 			case RESET_SLAVE:
-				monitor.reset();
-				exit=true;
+				//monitor.reset();
+				//exit=true;
+				cout << "Reset Slave.." << endl;
 				break;
 			case EMERGENCY_SHUTDOWN:
-				system("sudo shutdown -h now "); //lookup real command
+				system("shutdown -now"); //lookup real command
 				exit(1);
 			case SOFTWARE_UPDATE:
-				network.getUpdate();
-				monitor.update();
-				exit=true;
+				//network.getUpdate();
+				//monitor.update();
 				break;
 			case REQUEST_SENSOR_LIST:
-				network.sendSensorList(sensors.getList());
-				break;*/
+				//network.sendSensorList(sensors.getList());
+				break;
 
 		}
 	}
