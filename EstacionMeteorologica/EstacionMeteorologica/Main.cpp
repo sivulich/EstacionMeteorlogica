@@ -22,7 +22,7 @@ int main(void)
 			case PING:
 				cout << "Receive a ping packet" << endl;
 				//exit = true;
-				//network.sendSerial();
+				network.sendSerial();
 				break;
 			case QUIT:
 				cout << "Quitting..." << endl;
@@ -45,7 +45,7 @@ int main(void)
 				exit=true;
 				break;
 			case EMERGENCY_SHUTDOWN:
-				system("shutdown -now"); //lookup real command
+				system("sudo shutdown -h now "); //lookup real command
 				exit(1);
 			case SOFTWARE_UPDATE:
 				network.getUpdate();

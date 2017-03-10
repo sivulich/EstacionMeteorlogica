@@ -50,7 +50,7 @@ SlaveNetworking::sendConnectAck()
 }
 
 void
-SlaveNetworking::sendData(vector<char>& data)
+SlaveNetworking::sendData(list<Sensor*>& mySensors)
 {
 	cout << "Sending data" << endl;
 }
@@ -107,4 +107,19 @@ void
 SlaveNetworking::sendSensorList(list<Sensor*>& mySensors)
 {
 	cout << "Sending sensor list" << endl;
+	vector<uint8_t> data;
+	data.reserve(5 + 1 + 53 * mySensors.size() +1); // 5 header + 1 for number of sensors + 53 *n maxsize for a sensor in the list + 1 the ending null char
+	data.push_back(myId);
+	data.push_back(toId);
+	data.push_back(uint8_t(SENSOR_LIST));
+	for (auto& sen : mySensors)
+	{
+		for (auto& c : sen->getName())
+			data.push_back(uint8_t(c));
+		data.push_back(0);
+		data.push_back(sen->getType());
+		data.push_back(sen->getActive());
+	}
+	data.push_back(0);
+	sendPacket(data);
 }
