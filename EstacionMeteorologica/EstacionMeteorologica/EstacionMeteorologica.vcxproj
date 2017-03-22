@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GPIO.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Sensor.cpp" />
     <ClCompile Include="Slave.cpp" />
@@ -119,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="configs.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="GPIO.h" />
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="Slave.h" />
     <ClInclude Include="SlaveNetworking.h" />

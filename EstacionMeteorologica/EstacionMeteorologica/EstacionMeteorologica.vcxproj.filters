@@ -30,6 +30,9 @@
     <ClCompile Include="Slave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GPIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="configs.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Slave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GPIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
