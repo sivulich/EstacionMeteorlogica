@@ -5,10 +5,10 @@
 
 using namespace std;
 
-class bs18b20
+class ds18b20
 {
 public:
-	bs18b20(unsigned int adapter_nr, int addr);
+	ds18b20(unsigned int adapter_nr, int addr);
 	float getDataC();
 	float getDataF();
 protected:
@@ -19,4 +19,4 @@ protected:
 
 	
 
-#endif DS18B20__H_
+#endif //DS18B20__H_
