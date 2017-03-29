@@ -3,7 +3,7 @@
 
 #define ONEWIRE_PATH "/sys/bus/w1/devices"
 
-bs18b20::bs18b20(unsigned int adapter_nr, int addr)
+ds18b20::ds18b20(unsigned int adapter_nr, int addr)
 {
 	DIR *oneWire_dir = opendir(ONEWIRE_PATH);
 	struct dirent *dirent;
@@ -31,7 +31,7 @@ bs18b20::bs18b20(unsigned int adapter_nr, int addr)
 	//Do not open file. Reading is done when file is open.
 }
 
-float bs18b20::getDataC()
+float ds18b20::getDataC()
 {
 	int temp_file;
 	float number = NAN;
@@ -48,12 +48,12 @@ float bs18b20::getDataC()
 	return number;
 }
 
-float bs18b20::getDataF()
+float ds18b20::getDataF()
 {
 	return temp_C2F(getDataC());
 }
 
-float bs18b20::temp_C2F(float tempC)
+float ds18b20::temp_C2F(float tempC)
 {
 	return 1.8*tempC+32;
 }
