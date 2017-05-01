@@ -12,12 +12,12 @@ public:
 
 	bool hayEvento();
 	Event getEvent();
-	bool sendSerial();
+	bool sendPingResponse(vector<Sensor*> sensors);
 	void sendConnectAck();
 	void sendStatus();
-	void sendData(list<Sensor*>& mySensors);
+	void sendData(vector<Sensor*>& mySensors);
 	void getUpdate();
-	void sendSensorList(list<Sensor*>& mySensors);
+	void sendSensorList(vector<Sensor*>& mySensors);
 private:
 	bool sendPacket(vector<uint8_t>& data);
 	Event * ev;

@@ -111,12 +111,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BMP180.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Sensor.cpp" />
     <ClCompile Include="Slave.cpp" />
     <ClCompile Include="SlaveNetworking.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BMP180.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Sensor.h" />

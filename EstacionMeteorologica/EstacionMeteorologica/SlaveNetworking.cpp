@@ -56,16 +56,41 @@ void
 SlaveNetworking::sendConnectAck()
 {
 	cout << "Sending ACK" << endl;
+	vector<uint8_t> packet;
+	packet.push_back(myId);
+	packet.push_back(toId);
+	packet.push_back(uint8_t(CONNECTION_ACK));
+	packet.push_back(0);
+	sendPacket(packet);
 }
 
 void
-SlaveNetworking::sendData(list<Sensor*>& mySensors)
+SlaveNetworking::sendData(vector<Sensor*>& mySensors)
 {
 	cout << "Sending data" << endl;
+	vector<uint8_t> packet;
+	int nOf = 0;
+	packet.push_back(myId);
+	packet.push_back(toId);
+	packet.push_back(uint8_t(DATA));
+	for (auto& sen : mySensors)
+	{
+		if (sen->getActive() == 1)
+		{
+			nOf++;
+			packet.push_back(sen->getNumber());
+			packet.push_back(0);
+			packet.push_back(sen->getType());
+			packet.insert(packet.end(),sen->getData().begin(),sen->getData().end());
+		}
+	}
+	packet.insert(packet.begin()+3, nOf);
+	packet.push_back(0);
+	sendPacket(packet);
 }
 
 bool
-SlaveNetworking::sendSerial()
+SlaveNetworking::sendPingResponse(vector<Sensor*> sensors)
 {
 	bool retVal = false;
 	//packetCode type;
@@ -88,11 +113,14 @@ SlaveNetworking::sendSerial()
 		}
 		if (serialNum.size() != 0)					//check if the serial number was found
 		{
-			//creating packet..
-			//memcpy(&tempData[tempSize], serialNum.c_str(), serialNum.size());
-			//tempSize += serialNum.size();
-			//tempData[tempSize++] = numberOfSensors;
-			//retVal = createNewPacket(type, tempData, size);
+			vector<uint8_t> packet;
+			packet.push_back(myId);
+			packet.push_back(toId);
+			packet.push_back(uint8_t(PING_RESPONSE));
+			packet.insert(packet.end(), serialNum.begin(), serialNum.end());
+			packet.push_back(sensors.size());
+			packet.push_back(0);
+			sendPacket(packet);
 			cout << serialNum << endl;
 		}
 		serialFile.close();
@@ -113,7 +141,7 @@ SlaveNetworking::getUpdate()
 }
 
 void
-SlaveNetworking::sendSensorList(list<Sensor*>& mySensors)
+SlaveNetworking::sendSensorList(vector<Sensor*>& mySensors)
 {
 	cout << "Sending sensor list" << endl;
 	vector<uint8_t> data;

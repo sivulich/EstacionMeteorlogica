@@ -8,8 +8,8 @@ public:
 	Slave();
 	~Slave();
 	void init();
-	vector<char> getData();
+	vector<Sensor*> getSensors();
 private:
-	list<Sensor *>sensors;
+	vector<Sensor *>sensors;
 };
 

@@ -29,7 +29,7 @@ int main(void)
 				//network.sendStatus(monitor.getStatus());
 				break;
 			case DATA_REQUEST:
-				network.sendData(sensors.getData());
+				network.sendData(sensors.getSensors());
 				break;
 			case RESET_SLAVE:
 				//monitor.reset();

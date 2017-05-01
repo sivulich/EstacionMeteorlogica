@@ -7,7 +7,7 @@ public:
 	Sensor();
 	virtual ~Sensor();
 
-	virtual bool getData(vector<uint8_t>&) = 0;
+	virtual vector<uint8_t>& getData() = 0;
 	uint8_t getType();
 	void setNumber(uint8_t number);
 	uint8_t getNumber();
