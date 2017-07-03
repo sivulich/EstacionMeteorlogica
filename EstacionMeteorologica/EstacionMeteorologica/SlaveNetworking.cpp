@@ -10,7 +10,6 @@ SlaveNetworking::SlaveNetworking()
 SlaveNetworking::~SlaveNetworking()
 {
 	cout << "Destroying evet.." << endl;
-	if (ev != nullptr) delete ev;
 }
 
 int
@@ -51,28 +50,24 @@ SlaveNetworking::hayEvento()
 	*/
 	bool retVal = true;
 	char c = getchar();
-	Event * ev;
 	switch (c)
 	{
 	case 'P':
-		ev = new Event(PING_BROADCAST);
-		this->ev = ev;
+		ev = Event(PING_BROADCAST);
 		break;
 	case 'E':
 		//ev = new Event(EMERGENCY_SHUTDOWN);
 		this->ev = ev;
 		break;
 	case 'C':
-		ev = new Event(CONNECT_TO_SLAVE);
-		this->ev = ev;
+		ev = Event(CONNECT_TO_SLAVE);
 		break;
 	case 'S':
-		ev = new Event(GET_STATUS);
-		this->ev = ev;
+		ev = Event(GET_STATUS);
+		
 		break;
 	case 'D':
-		ev = new Event(DATA_REQUEST);
-		this->ev = ev;
+		ev = Event(DATA_REQUEST);
 		break;
 	default:
 		retVal = false;
@@ -84,7 +79,13 @@ SlaveNetworking::hayEvento()
 Event
 SlaveNetworking::getEvent()
 {
-	return *ev;
+	return ev;
+}
+
+void
+SlaveNetworking::setID(uint16_t id)
+{
+	this->myId = id;
 }
 
 void
@@ -169,7 +170,7 @@ SlaveNetworking::sendPingResponse(const vector<Sensor*> sensors)
 			packet.insert(packet.end(), id.begin(), id.end());
 			packet.push_back(uint8_t(PING_RESPONSE));
 			packet.insert(packet.end(), serialNum.begin(), serialNum.end());
-			packet.push_back(sensors.size());
+			packet.push_back(uint8_t(sensors.size()));
 			packet.push_back(0);
 			uint32_t size = packet.size();
 			vector<uint8_t> s(4);
@@ -225,8 +226,11 @@ SlaveNetworking::sendSensorList(const vector<Sensor*>& mySensors)
 	cout << "Sending sensor list" << endl;
 	vector<uint8_t> packet;
 	packet.reserve(5 + 1 + 53 * mySensors.size() +1); // 5 header + 1 for number of sensors + 53 *n maxsize for a sensor in the list + 1 the ending null char
-	packet.push_back(myId);
-	packet.push_back(toId);
+	vector<uint8_t> id(2);
+	*((uint16_t*)id.data()) = myId;
+	packet.insert(packet.end(), id.begin(), id.end());
+	*((uint16_t*)id.data()) = toId;
+	packet.insert(packet.end(), id.begin(), id.end());
 	packet.push_back(uint8_t(SENSOR_LIST));
 	for (auto& sen : mySensors)
 	{

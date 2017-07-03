@@ -23,6 +23,7 @@ int main(void)
 				network.sendPingResponse(sensors.getSensors());
 				break;
 			case CONNECT_TO_SLAVE:
+				network.setID((uint16_t)101);
 				network.sendConnectAck();
 				break;
 			case GET_STATUS:

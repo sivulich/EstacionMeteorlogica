@@ -11,6 +11,7 @@ public:
 
 	bool hayEvento();
 	Event getEvent();
+	void setID(uint16_t id);
 	bool sendPingResponse(const vector<Sensor*> sensors);
 	void sendConnectAck();
 	void sendStatus(const vector<Sensor*>& mySensors, uint8_t battery, bool busy);
@@ -20,7 +21,7 @@ public:
 	int sendPacket(const vector<uint8_t>& packet);
 private:
 	//bool sendPacket(vector<uint8_t>& data);
-	Event * ev;
+	Event ev;
 	uint16_t myId, toId;
 	uint32_t serverIp;
 };
