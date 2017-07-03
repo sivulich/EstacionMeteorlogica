@@ -4,13 +4,14 @@
 #include <math.h>
 #include <cstring>
 #include <unistd.h>
+#include <dirent.h>
 #include <string>
 
 #define ONEWIRE_PATH "/sys/bus/w1/devices"
 
 using namespace std;
 
-DS18B20::DS18B20(unsigned int adapter_nr, int addr)
+DS18B20::DS18B20()
 {
 	DIR *oneWire_dir = opendir(ONEWIRE_PATH);
 	struct dirent *dirent;
@@ -28,6 +29,7 @@ DS18B20::DS18B20(unsigned int adapter_nr, int addr)
 			{
 				device_path += '/';
 				device_path += dirent->d_name;
+				device_path += '/';
 				device_path += "w1_slave";
 				init_succ = true;
 				break;
@@ -38,11 +40,11 @@ DS18B20::DS18B20(unsigned int adapter_nr, int addr)
 	//Do not open file. Reading is done when file is open.
 }
 
-float DS18B20::getDataC()
+double DS18B20::getDataC()
 {
 	int temp_file;
-	float number = NAN;
-	if(init_succ && (temp_file = open(device_path.c_str(), O_RDONLY)) )
+	double number = NAN;
+	if(init_succ && (temp_file = open(device_path.c_str(), O_RDONLY)) >=0 )
 	{
 		char buffer[256];
 		size_t d_size;
@@ -50,17 +52,31 @@ float DS18B20::getDataC()
 		while((d_size = read(temp_file, buffer, 256)) > 0) 
 			data += string(buffer,d_size);
 		//TO-DO: Check if working and parse string to return temp.
+		char read_ok[10];
+		int temp;
+		int read_count = sscanf(data.c_str(),
+			"%*x %*x %*x %*x %*x %*x %*x %*x %*x : crc=%*x %s\n%*x %*x %*x %*x %*x %*x %*x %*x %*x t=%d",
+			read_ok,
+			&temp
+		);
+		if (read_count == 2 && (strcmp(read_ok,"YES") == 0))
+			number = (double) temp;
 		close(temp_file);
 	}
-	return number;
+	return number/1000;
 }
 
-float DS18B20::getDataF()
+double DS18B20::getDataF()
 {
 	return temp_C2F(getDataC());
 }
 
-float DS18B20::temp_C2F(float tempC)
+bool DS18B20::init_ok()
+{
+	return init_succ;
+}
+
+double DS18B20::temp_C2F(double tempC)
 {
 	return 1.8*tempC+32;
 }
