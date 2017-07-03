@@ -20,13 +20,13 @@ int main(void)
 		{
 			case PING_BROADCAST:
 				cout << "Receive a ping broadcast" << endl;
-				network.sendSerial();
+				network.sendPingResponse(sensors.getSensors());
 				break;
 			case CONNECT_TO_SLAVE:
 				network.sendConnectAck();
 				break;
 			case GET_STATUS:
-				//network.sendStatus(monitor.getStatus());
+				network.sendStatus(sensors.getSensors(), sensors.getBattery(), sensors.getBusy());
 				break;
 			case DATA_REQUEST:
 				network.sendData(sensors.getSensors());
@@ -37,7 +37,7 @@ int main(void)
 				cout << "Reset Slave.." << endl;
 				break;
 			case EMERGENCY_SHUTDOWN:
-				system("shutdown -now"); //lookup real command
+				system("shutdown -P");
 				exit(1);
 			case SOFTWARE_UPDATE:
 				//network.getUpdate();

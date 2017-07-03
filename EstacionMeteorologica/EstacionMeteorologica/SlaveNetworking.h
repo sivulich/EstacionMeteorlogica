@@ -14,13 +14,14 @@ public:
 	Event getEvent();
 	bool sendPingResponse(vector<Sensor*> sensors);
 	void sendConnectAck();
-	void sendStatus();
+	void sendStatus(vector<Sensor*>& mySensors, uint8_t battery, bool busy);
 	void sendData(vector<Sensor*>& mySensors);
 	void getUpdate();
 	void sendSensorList(vector<Sensor*>& mySensors);
+	int sendPacket(vector<uint8_t>& packet);
 private:
-	bool sendPacket(vector<uint8_t>& data);
+	//bool sendPacket(vector<uint8_t>& data);
 	Event * ev;
-	uint8_t myId, toId;
-
+	uint16_t myId, toId;
+	uint32_t serverIp;
 };

@@ -4,6 +4,8 @@
 
 Slave::Slave()
 {
+	onBattery = false;
+	battery = 101;
 }
 
 

@@ -4,13 +4,24 @@
 
 SlaveNetworking::SlaveNetworking()
 {
-
+	serverIp = 0; //Agregar el ip del server o algo que lo busque!
 }
 
 SlaveNetworking::~SlaveNetworking()
 {
 	cout << "Destroying evet.." << endl;
 	if (ev != nullptr) delete ev;
+}
+
+int
+SlaveNetworking::sendPacket(vector<uint8_t>& packet)
+{
+	ofstream out("packet.pkt");
+	for (auto& b : packet)
+		out << b;
+	out.close();
+	string command = string("python sendPacket.py ") + to_string(serverIp);
+	return system(command.c_str());
 }
 
 void
@@ -22,6 +33,17 @@ SlaveNetworking::init()
 bool
 SlaveNetworking::hayEvento()
 {
+	/*
+	system("python recievePacket.py");
+	ifstream in("packet.pkt");
+	uint8_t temp='a';
+	vector<uint8_t> packet;
+	while(temp!=EOF)
+	{
+		in.read(*temp,1);
+		packet.push_back(temp);
+	}
+	*/
 	bool retVal = true;
 	char c = getchar();
 	Event * ev;
@@ -38,6 +60,10 @@ SlaveNetworking::hayEvento()
 	case 'C':
 		ev = new Event(CONNECT_TO_SLAVE);
 		this->ev = ev;
+		break;
+	case 'D':
+		ev = new Event(GET_STATUS);
+		this->ev;
 		break;
 	default:
 		retVal = false;
@@ -57,8 +83,11 @@ SlaveNetworking::sendConnectAck()
 {
 	cout << "Sending ACK" << endl;
 	vector<uint8_t> packet;
-	packet.push_back(myId);
-	packet.push_back(toId);
+	vector<uint8_t> id(2);
+	*((uint16_t*)id.data()) = myId;
+	packet.insert(packet.end(), id.begin(), id.end());
+	*((uint16_t*)id.data()) = toId;
+	packet.insert(packet.end(), id.begin(), id.end());
 	packet.push_back(uint8_t(CONNECTION_ACK));
 	packet.push_back(0);
 	sendPacket(packet);
@@ -70,8 +99,11 @@ SlaveNetworking::sendData(vector<Sensor*>& mySensors)
 	cout << "Sending data" << endl;
 	vector<uint8_t> packet;
 	int nOf = 0;
-	packet.push_back(myId);
-	packet.push_back(toId);
+	vector<uint8_t> id(2);
+	*((uint16_t*)id.data()) = myId;
+	packet.insert(packet.end(), id.begin(), id.end());
+	*((uint16_t*)id.data()) = toId;
+	packet.insert(packet.end(), id.begin(), id.end());
 	packet.push_back(uint8_t(DATA));
 	for (auto& sen : mySensors)
 	{
@@ -114,8 +146,11 @@ SlaveNetworking::sendPingResponse(vector<Sensor*> sensors)
 		if (serialNum.size() != 0)					//check if the serial number was found
 		{
 			vector<uint8_t> packet;
-			packet.push_back(myId);
-			packet.push_back(toId);
+			vector<uint8_t> id(2);
+			*((uint16_t*)id.data()) = myId;
+			packet.insert(packet.end(), id.begin(), id.end());
+			*((uint16_t*)id.data()) = toId;
+			packet.insert(packet.end(), id.begin(), id.end());
 			packet.push_back(uint8_t(PING_RESPONSE));
 			packet.insert(packet.end(), serialNum.begin(), serialNum.end());
 			packet.push_back(sensors.size());
@@ -129,9 +164,32 @@ SlaveNetworking::sendPingResponse(vector<Sensor*> sensors)
 }
 
 void
-SlaveNetworking::sendStatus()
+SlaveNetworking::sendStatus(vector<Sensor*>& mySensors,uint8_t battery,bool busy)
 {
 	cout << "Sending status" << endl;
+	vector<uint8_t> packet;
+	vector<uint8_t> id(2);
+	*((uint16_t*)id.data()) = myId;
+	packet.insert(packet.end(), id.begin(), id.end());
+	*((uint16_t*)id.data()) = toId;
+	packet.insert(packet.end(), id.begin(), id.end());
+	packet.push_back(uint8_t(STATUS));
+	packet.push_back(battery);
+	packet.push_back(uint8_t(busy));
+	packet.push_back(uint8_t(mySensors.size()));
+	uint8_t active = 0;
+	for (auto& s : mySensors)
+	{
+		if (s->getActive() == true)
+			active++;
+	}
+	packet.push_back(active);
+	packet.push_back(0);
+	uint32_t size = packet.size();
+	vector<uint8_t> s(4);
+	*((uint32_t*)s.data()) = size;
+	packet.insert(packet.begin(), s.begin(), s.end());
+	return;
 }
 
 void
@@ -158,5 +216,9 @@ SlaveNetworking::sendSensorList(vector<Sensor*>& mySensors)
 		data.push_back(sen->getActive());
 	}
 	data.push_back(0);
+	uint32_t size = packet.size();
+	vector<uint8_t> s(4);
+	*((uint32_t*)s.data()) = size;
+	packet.insert(packet.begin(), s.begin(), s.end());
 	sendPacket(data);
 }
