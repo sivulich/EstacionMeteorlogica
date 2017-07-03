@@ -183,7 +183,7 @@ SlaveNetworking::sendStatus(vector<Sensor*>& mySensors,uint8_t battery,bool busy
 	uint8_t active = 0;
 	for (auto& s : mySensors)
 	{
-		if (s->getActive() == true)
+		if (s->getActive() == 1)
 			active++;
 	}
 	packet.push_back(active);

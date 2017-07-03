@@ -14,7 +14,7 @@ public:
 	uint8_t getNumber();
 	uint8_t getActive() { return active; };
 	string getName() { return name; };
-	void setName(string& s) { name = s; };
+	void setName(const string& s) { name = s; };
 protected:
 	string name;
 	uint8_t sensor_number;

@@ -60,6 +60,9 @@
     <ClCompile Include="temp_sensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DS18B20.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="configs.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files\Server</Filter>
     </ClInclude>
     <ClInclude Include="temp_sensor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DS18B20.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

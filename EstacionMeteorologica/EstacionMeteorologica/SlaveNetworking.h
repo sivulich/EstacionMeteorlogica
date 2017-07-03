@@ -2,7 +2,6 @@
 #include "Sensor.h"
 #include "Event.h"
 
-enum { DATA = 11, STATUS, RESET_ACK, SOFTWARE_ACK, EMERGENCY_SHUTDOWN_ACK, CONECTON_ACK, PING_RESPONSE, SENSOR_LIST };
 
 class SlaveNetworking {
 public:
