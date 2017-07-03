@@ -86,7 +86,7 @@ SlaveNetworking::getEvent()
 void
 SlaveNetworking::sendConnectAck()
 {
-	cout << "Sending ACK" << endl;
+	cout << "Sending Connection ACK" << endl;
 	vector<uint8_t> packet;
 	vector<uint8_t> id(2);
 	*((uint16_t*)id.data()) = myId;
