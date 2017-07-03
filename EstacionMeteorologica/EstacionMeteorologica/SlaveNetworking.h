@@ -11,13 +11,13 @@ public:
 
 	bool hayEvento();
 	Event getEvent();
-	bool sendPingResponse(vector<Sensor*> sensors);
+	bool sendPingResponse(const vector<Sensor*> sensors);
 	void sendConnectAck();
-	void sendStatus(vector<Sensor*>& mySensors, uint8_t battery, bool busy);
-	void sendData(vector<Sensor*>& mySensors);
+	void sendStatus(const vector<Sensor*>& mySensors, uint8_t battery, bool busy);
+	void sendData(const vector<Sensor*>& mySensors);
 	void getUpdate();
-	void sendSensorList(vector<Sensor*>& mySensors);
-	int sendPacket(vector<uint8_t>& packet);
+	void sendSensorList(const vector<Sensor*>& mySensors);
+	int sendPacket(const vector<uint8_t>& packet);
 private:
 	//bool sendPacket(vector<uint8_t>& data);
 	Event * ev;

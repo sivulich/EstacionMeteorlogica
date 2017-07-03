@@ -46,6 +46,8 @@ int main(void)
 			case REQUEST_SENSOR_LIST:
 				//network.sendSensorList(sensors.getList());
 				break;
+			default:
+				break;
 
 		}
 	}
