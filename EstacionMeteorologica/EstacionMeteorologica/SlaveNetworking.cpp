@@ -14,7 +14,7 @@ SlaveNetworking::~SlaveNetworking()
 }
 
 int
-SlaveNetworking::sendPacket(vector<uint8_t>& packet)
+SlaveNetworking::sendPacket(const vector<uint8_t>& packet)
 {
 /*	ofstream out("packet.pkt");
 	for (auto& b : packet)
@@ -24,7 +24,7 @@ SlaveNetworking::sendPacket(vector<uint8_t>& packet)
 	return system(command.c_str());*/
 	cout << "Sending packet with this info:" << endl;
 	for (auto& u : packet)
-		cout << u;
+		cout << bitset<8>(u) << " ";
 	cout << endl << endl;
 	return 0;
 }
@@ -59,16 +59,20 @@ SlaveNetworking::hayEvento()
 		this->ev = ev;
 		break;
 	case 'E':
-		ev = new Event(EMERGENCY_SHUTDOWN);
+		//ev = new Event(EMERGENCY_SHUTDOWN);
 		this->ev = ev;
 		break;
 	case 'C':
 		ev = new Event(CONNECT_TO_SLAVE);
 		this->ev = ev;
 		break;
-	case 'D':
+	case 'S':
 		ev = new Event(GET_STATUS);
-		this->ev;
+		this->ev = ev;
+		break;
+	case 'D':
+		ev = new Event(DATA_REQUEST);
+		this->ev = ev;
 		break;
 	default:
 		retVal = false;
@@ -86,7 +90,7 @@ SlaveNetworking::getEvent()
 void
 SlaveNetworking::sendConnectAck()
 {
-	cout << "Sending Connection ACK" << endl;
+	cout << "Sending ACK" << endl;
 	vector<uint8_t> packet;
 	vector<uint8_t> id(2);
 	*((uint16_t*)id.data()) = myId;
@@ -95,11 +99,15 @@ SlaveNetworking::sendConnectAck()
 	packet.insert(packet.end(), id.begin(), id.end());
 	packet.push_back(uint8_t(CONNECTION_ACK));
 	packet.push_back(0);
+	uint32_t size = packet.size();
+	vector<uint8_t> s(4);
+	*((uint32_t*)s.data()) = size;
+	packet.insert(packet.begin(), s.begin(), s.end());
 	sendPacket(packet);
 }
 
 void
-SlaveNetworking::sendData(vector<Sensor*>& mySensors)
+SlaveNetworking::sendData(const vector<Sensor*>& mySensors)
 {
 	cout << "Sending data" << endl;
 	vector<uint8_t> packet;
@@ -118,16 +126,21 @@ SlaveNetworking::sendData(vector<Sensor*>& mySensors)
 			packet.push_back(sen->getNumber());
 			packet.push_back(0);
 			packet.push_back(sen->getType());
-			packet.insert(packet.end(),sen->getData().begin(),sen->getData().end());
+			vector<uint8_t> data = sen->getData();
+			packet.insert(packet.end(),data.begin(),data.end());
 		}
 	}
 	packet.insert(packet.begin()+3, nOf);
 	packet.push_back(0);
+	uint32_t size = packet.size();
+	vector<uint8_t> s(4);
+	*((uint32_t*)s.data()) = size;
+	packet.insert(packet.begin(), s.begin(), s.end());
 	sendPacket(packet);
 }
 
 bool
-SlaveNetworking::sendPingResponse(vector<Sensor*> sensors)
+SlaveNetworking::sendPingResponse(const vector<Sensor*> sensors)
 {
 	bool retVal = false;
 	
@@ -158,6 +171,10 @@ SlaveNetworking::sendPingResponse(vector<Sensor*> sensors)
 			packet.insert(packet.end(), serialNum.begin(), serialNum.end());
 			packet.push_back(sensors.size());
 			packet.push_back(0);
+			uint32_t size = packet.size();
+			vector<uint8_t> s(4);
+			*((uint32_t*)s.data()) = size;
+			packet.insert(packet.begin(), s.begin(), s.end());
 			sendPacket(packet);
 			cout << serialNum << endl;
 		}
@@ -167,7 +184,7 @@ SlaveNetworking::sendPingResponse(vector<Sensor*> sensors)
 }
 
 void
-SlaveNetworking::sendStatus(vector<Sensor*>& mySensors,uint8_t battery,bool busy)
+SlaveNetworking::sendStatus(const vector<Sensor*>& mySensors,uint8_t battery,bool busy)
 {
 	cout << "Sending status" << endl;
 	vector<uint8_t> packet;
@@ -203,7 +220,7 @@ SlaveNetworking::getUpdate()
 }
 
 void
-SlaveNetworking::sendSensorList(vector<Sensor*>& mySensors)
+SlaveNetworking::sendSensorList(const vector<Sensor*>& mySensors)
 {
 	cout << "Sending sensor list" << endl;
 	vector<uint8_t> packet;

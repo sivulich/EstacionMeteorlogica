@@ -21,6 +21,5 @@ protected:
 	uint8_t data_type;
 	uint8_t active;
 
-
 };
 
