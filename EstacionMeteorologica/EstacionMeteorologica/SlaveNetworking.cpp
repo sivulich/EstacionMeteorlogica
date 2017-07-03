@@ -16,12 +16,17 @@ SlaveNetworking::~SlaveNetworking()
 int
 SlaveNetworking::sendPacket(vector<uint8_t>& packet)
 {
-	ofstream out("packet.pkt");
+/*	ofstream out("packet.pkt");
 	for (auto& b : packet)
 		out << b;
 	out.close();
 	string command = string("python sendPacket.py ") + to_string(serverIp);
-	return system(command.c_str());
+	return system(command.c_str());*/
+	cout << "Sending packet with this info:" << endl;
+	for (auto& u : packet)
+		cout << u;
+	cout << endl << endl;
+	return 0;
 }
 
 void
@@ -125,9 +130,7 @@ bool
 SlaveNetworking::sendPingResponse(vector<Sensor*> sensors)
 {
 	bool retVal = false;
-	//packetCode type;
-	//clear();
-	//type = PING_RESPONSE;
+	
 	vector<char> tempData;
 	unsigned int tempSize = 0;
 	//finding serial number..
@@ -189,6 +192,7 @@ SlaveNetworking::sendStatus(vector<Sensor*>& mySensors,uint8_t battery,bool busy
 	vector<uint8_t> s(4);
 	*((uint32_t*)s.data()) = size;
 	packet.insert(packet.begin(), s.begin(), s.end());
+	sendPacket(packet);
 	return;
 }
 
@@ -202,23 +206,23 @@ void
 SlaveNetworking::sendSensorList(vector<Sensor*>& mySensors)
 {
 	cout << "Sending sensor list" << endl;
-	vector<uint8_t> data;
-	data.reserve(5 + 1 + 53 * mySensors.size() +1); // 5 header + 1 for number of sensors + 53 *n maxsize for a sensor in the list + 1 the ending null char
-	data.push_back(myId);
-	data.push_back(toId);
-	data.push_back(uint8_t(SENSOR_LIST));
+	vector<uint8_t> packet;
+	packet.reserve(5 + 1 + 53 * mySensors.size() +1); // 5 header + 1 for number of sensors + 53 *n maxsize for a sensor in the list + 1 the ending null char
+	packet.push_back(myId);
+	packet.push_back(toId);
+	packet.push_back(uint8_t(SENSOR_LIST));
 	for (auto& sen : mySensors)
 	{
 		for (auto& c : sen->getName())
-			data.push_back(uint8_t(c));
-		data.push_back(0);
-		data.push_back(sen->getType());
-		data.push_back(sen->getActive());
+			packet.push_back(uint8_t(c));
+		packet.push_back(0);
+		packet.push_back(sen->getType());
+		packet.push_back(sen->getActive());
 	}
-	data.push_back(0);
+	packet.push_back(0);
 	uint32_t size = packet.size();
 	vector<uint8_t> s(4);
 	*((uint32_t*)s.data()) = size;
 	packet.insert(packet.begin(), s.begin(), s.end());
-	sendPacket(data);
+	sendPacket(packet);
 }
