@@ -22,15 +22,21 @@
     <Filter Include="Source Files\Sensors">
       <UniqueIdentifier>{0a8823a3-683b-41c3-88a2-0343020356fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Slave">
+      <UniqueIdentifier>{66a56aec-bafe-4ed9-92a5-ca4a87f5b78e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Slave">
+      <UniqueIdentifier>{a26e9b27-5b6c-402d-bd3f-22fb1ab7a6a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server">
+      <UniqueIdentifier>{a0ddbc0b-2787-49a1-8f75-fef127153bd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{684bf5de-a0bd-4478-8431-8a22921a6571}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SlaveNetworking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Slave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sensor.cpp">
@@ -38,6 +44,21 @@
     </ClCompile>
     <ClCompile Include="BMP180.cpp">
       <Filter>Source Files\Sensors</Filter>
+    </ClCompile>
+    <ClCompile Include="Slave.cpp">
+      <Filter>Source Files\Slave</Filter>
+    </ClCompile>
+    <ClCompile Include="SlaveNetworking.cpp">
+      <Filter>Source Files\Slave</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerNetworking.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="temp_sensor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,17 +68,26 @@
     <ClInclude Include="Event.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="SlaveNetworking.h">
-      <Filter>Header Files\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="Slave.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BMP180.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
     <ClInclude Include="Sensor.h">
       <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="Slave.h">
+      <Filter>Header Files\Slave</Filter>
+    </ClInclude>
+    <ClInclude Include="SlaveNetworking.h">
+      <Filter>Header Files\Slave</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerNetworking.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="temp_sensor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
