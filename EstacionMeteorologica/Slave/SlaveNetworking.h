@@ -19,7 +19,6 @@ public:
 	bool publish(const string& subTopic, const vector<uint8_t>& message);
 private:
 	Event ev;
-	uint16_t myId, toId;
 	uint32_t serverIp;
 	Mosquitto mosq;
 	string serial;

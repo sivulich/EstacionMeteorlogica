@@ -18,29 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Slave\BMP180.cpp" />
-    <ClCompile Include="..\Slave\DS18B20.cpp" />
-    <ClCompile Include="..\Slave\GPIO.cpp" />
-    <ClCompile Include="..\Slave\Main.cpp" />
-    <ClCompile Include="..\Slave\mosquitto.cpp" />
-    <ClCompile Include="..\Slave\Sensor.cpp" />
-    <ClCompile Include="..\Slave\Slave.cpp" />
-    <ClCompile Include="..\Slave\SlaveNetworking.cpp" />
-    <ClCompile Include="..\Slave\temp_sensor.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Slave\BMP180.h" />
-    <ClInclude Include="..\Slave\configs.h" />
-    <ClInclude Include="..\Slave\DS18B20.hpp" />
-    <ClInclude Include="..\Slave\Event.h" />
-    <ClInclude Include="..\Slave\GPIO.h" />
-    <ClInclude Include="..\Slave\mosquitto.hpp" />
-    <ClInclude Include="..\Slave\Sensor.h" />
-    <ClInclude Include="..\Slave\Slave.h" />
-    <ClInclude Include="..\Slave\SlaveNetworking.h" />
-    <ClInclude Include="..\Slave\temp_sensor.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{90DB425C-F4DC-4840-9540-6F63955A8FE9}</ProjectGuid>
     <RootNamespace>EstacionMeteorologica</RootNamespace>
@@ -142,6 +119,26 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BMP180.cpp" />
+    <ClCompile Include="DS18B20.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Sensor.cpp" />
+    <ClCompile Include="Slave.cpp" />
+    <ClCompile Include="SlaveNetworking.cpp" />
+    <ClCompile Include="temp_sensor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BMP180.h" />
+    <ClInclude Include="configs.h" />
+    <ClInclude Include="DS18B20.hpp" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="mosquitto.hpp" />
+    <ClInclude Include="Sensor.h" />
+    <ClInclude Include="Slave.h" />
+    <ClInclude Include="SlaveNetworking.h" />
+    <ClInclude Include="temp_sensor.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

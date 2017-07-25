@@ -22,72 +22,63 @@
     <Filter Include="Source Files\Sensors">
       <UniqueIdentifier>{0a8823a3-683b-41c3-88a2-0343020356fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Slave">
+      <UniqueIdentifier>{66a56aec-bafe-4ed9-92a5-ca4a87f5b78e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Slave">
       <UniqueIdentifier>{a26e9b27-5b6c-402d-bd3f-22fb1ab7a6a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Networking">
-      <UniqueIdentifier>{e9b93ae1-3006-49e7-a33d-0982bc0f8ed4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Slave\Main.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Slave\BMP180.cpp">
+    <ClCompile Include="Sensor.cpp">
       <Filter>Source Files\Sensors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Slave\DS18B20.cpp">
+    <ClCompile Include="BMP180.cpp">
       <Filter>Source Files\Sensors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Slave\GPIO.cpp">
+    <ClCompile Include="Slave.cpp">
+      <Filter>Source Files\Slave</Filter>
+    </ClCompile>
+    <ClCompile Include="SlaveNetworking.cpp">
+      <Filter>Source Files\Slave</Filter>
+    </ClCompile>
+    <ClCompile Include="DS18B20.cpp">
       <Filter>Source Files\Sensors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Slave\Sensor.cpp">
+    <ClCompile Include="temp_sensor.cpp">
       <Filter>Source Files\Sensors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Slave\temp_sensor.cpp">
-      <Filter>Source Files\Sensors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Slave\SlaveNetworking.cpp">
-      <Filter>Source Files\Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Slave\mosquitto.cpp">
-      <Filter>Source Files\Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Slave\Slave.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Slave\configs.h">
+    <ClInclude Include="configs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Slave\BMP180.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Slave\DS18B20.hpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Slave\GPIO.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Slave\Event.h">
+    <ClInclude Include="Event.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\Slave\mosquitto.hpp">
-      <Filter>Header Files\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Slave\Sensor.h">
+    <ClInclude Include="BMP180.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Slave\SlaveNetworking.h">
-      <Filter>Header Files\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Slave\temp_sensor.h">
+    <ClInclude Include="Sensor.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Slave\Slave.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Slave.h">
+      <Filter>Header Files\Slave</Filter>
+    </ClInclude>
+    <ClInclude Include="SlaveNetworking.h">
+      <Filter>Header Files\Slave</Filter>
+    </ClInclude>
+    <ClInclude Include="DS18B20.hpp">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="mosquitto.hpp">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="temp_sensor.h">
+      <Filter>Header Files\Sensors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
