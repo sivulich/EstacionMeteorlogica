@@ -18,14 +18,6 @@ int main(void)
 		Event in=network.getEvent();
 		switch (in.type())
 		{
-			case PING_BROADCAST:
-				cout << "Receive a ping broadcast" << endl;
-				network.sendPingResponse(sensors.getSensors());
-				break;
-			case CONNECT_TO_SLAVE:
-				network.setID((uint16_t)101);
-				network.sendConnectAck();
-				break;
 			case GET_STATUS:
 				network.sendStatus(sensors.getSensors(), sensors.getBattery(), sensors.getBusy());
 				break;
@@ -33,19 +25,13 @@ int main(void)
 				network.sendData(sensors.getSensors());
 				break;
 			case RESET_SLAVE:
-				//monitor.reset();
-				//exit=true;
-				cout << "Reset Slave.." << endl;
+				system("shutdown -r now");
 				break;
 			case EMERGENCY_SHUTDOWN:
-				system("shutdown -P");
+				system("shutdown -h now");
 				exit(1);
-			case SOFTWARE_UPDATE:
-				//network.getUpdate();
-				//monitor.update();
-				break;
 			case REQUEST_SENSOR_LIST:
-				//network.sendSensorList(sensors.getList());
+				network.sendSensorList(sensors.getSensors());
 				break;
 			default:
 				break;
