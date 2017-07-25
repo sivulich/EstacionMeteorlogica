@@ -4,76 +4,67 @@
 
 SlaveNetworking::SlaveNetworking()
 {
-	serverIp = 0; //Agregar el ip del server o algo que lo busque!
+	//finding serial number..
+	std::ifstream serialFile("/proc/cpuinfo", std::ifstream::in);
+	if (serialFile.is_open())
+	{
+		std::string temp, serialNum;
+		while (std::getline(serialFile, temp))		//reading the file
+		{
+			if (temp.substr(0, 6) == "Serial")		//looking for "Serial"
+			{
+				serialNum = temp.substr(18, 16);	//found it!!
+				break;
+			}
+		}
+		if (serialNum.size() != 0)					//check if the serial number was found
+		{
+			serial = serialNum;
+		}
+		serialFile.close();
+	}
+	mosq.connect("192.168.1.43");
+	mosq.subscribe("Control");
 }
 
 SlaveNetworking::~SlaveNetworking()
 {
-	cout << "Destroying evet.." << endl;
+	mosq.close();
+	mosq.cleanup_library();
 }
 
-int
-SlaveNetworking::sendPacket(const vector<uint8_t>& packet)
+bool
+SlaveNetworking::publish(const string& subTopic, const vector<uint8_t>& message)
 {
-/*	ofstream out("packet.pkt");
-	for (auto& b : packet)
-		out << b;
-	out.close();
-	string command = string("python sendPacket.py ") + to_string(serverIp);
-	return system(command.c_str());*/
-	cout << "Sending packet with this info:" << endl;
-	for (auto& u : packet)
-		cout << bitset<8>(u) << " ";
-	cout << endl << endl;
-	return 0;
+	mosq.publish("Slaves/" + serial +"/"+ subTopic, message);
+	return true;
 }
 
 void
 SlaveNetworking::init()
 {
 	cout << "Initializing networking..." << endl;
+	
 }
 
 bool
 SlaveNetworking::hayEvento()
 {
-	/*
-	system("python recievePacket.py");
-	ifstream in("packet.pkt");
-	uint8_t temp='a';
-	vector<uint8_t> packet;
-	while(temp!=EOF)
+	mosq.loop();
+	bool retval = false;
+	if (mosq.newEvent())
 	{
-		in.read(*temp,1);
-		packet.push_back(temp);
+		vector<uint8_t> data=mosq.getMessage();
+		uint8_t opcode = data[0];
+		if (opcode == 'D')
+		{
+			ev = DATA_REQUEST;
+			retval = true;
+		}
+			
 	}
-	*/
-	bool retVal = true;
-	char c = getchar();
-	switch (c)
-	{
-	case 'P':
-		ev = Event(PING_BROADCAST);
-		break;
-	case 'E':
-		//ev = new Event(EMERGENCY_SHUTDOWN);
-		this->ev = ev;
-		break;
-	case 'C':
-		ev = Event(CONNECT_TO_SLAVE);
-		break;
-	case 'S':
-		ev = Event(GET_STATUS);
-		
-		break;
-	case 'D':
-		ev = Event(DATA_REQUEST);
-		break;
-	default:
-		retVal = false;
-		break;
-	}
-	return retVal;
+	
+	return retval;
 }
 
 Event
@@ -104,40 +95,25 @@ SlaveNetworking::sendConnectAck()
 	vector<uint8_t> s(4);
 	*((uint32_t*)s.data()) = size;
 	packet.insert(packet.begin(), s.begin(), s.end());
-	sendPacket(packet);
 }
 
 void
 SlaveNetworking::sendData(const vector<Sensor*>& mySensors)
 {
 	cout << "Sending data" << endl;
-	vector<uint8_t> packet;
-	int nOf = 0;
-	vector<uint8_t> id(2);
-	*((uint16_t*)id.data()) = myId;
-	packet.insert(packet.end(), id.begin(), id.end());
-	*((uint16_t*)id.data()) = toId;
-	packet.insert(packet.end(), id.begin(), id.end());
-	packet.push_back(uint8_t(DATA));
+	uint8_t active=0;
 	for (auto& sen : mySensors)
 	{
 		if (sen->getActive() == 1)
 		{
-			nOf++;
-			packet.push_back(sen->getNumber());
-			packet.push_back(0);
-			packet.push_back(sen->getType());
-			vector<uint8_t> data = sen->getData();
-			packet.insert(packet.end(),data.begin(),data.end());
+			active++;
+			publish(sen->getName(), sen->getData());
 		}
 	}
-	packet.insert(packet.begin()+3, nOf);
-	packet.push_back(0);
-	uint32_t size = packet.size();
-	vector<uint8_t> s(4);
-	*((uint32_t*)s.data()) = size;
-	packet.insert(packet.begin(), s.begin(), s.end());
-	sendPacket(packet);
+	vector<uint8_t> a(1);
+	a[0] = active;
+	publish("Active", a);
+	
 }
 
 bool
@@ -147,40 +123,7 @@ SlaveNetworking::sendPingResponse(const vector<Sensor*> sensors)
 	
 	vector<char> tempData;
 	unsigned int tempSize = 0;
-	//finding serial number..
-	std::ifstream serialFile("/proc/cpuinfo", std::ifstream::in);
-	if (serialFile.is_open())
-	{
-		std::string temp, serialNum;
-		while (std::getline(serialFile, temp))		//reading the file
-		{
-			if (temp.substr(0, 6) == "Serial")		//looking for "Serial"
-			{
-				serialNum = temp.substr(18, 16);	//found it!!
-				break;
-			}
-		}
-		if (serialNum.size() != 0)					//check if the serial number was found
-		{
-			vector<uint8_t> packet;
-			vector<uint8_t> id(2);
-			*((uint16_t*)id.data()) = myId;
-			packet.insert(packet.end(), id.begin(), id.end());
-			*((uint16_t*)id.data()) = toId;
-			packet.insert(packet.end(), id.begin(), id.end());
-			packet.push_back(uint8_t(PING_RESPONSE));
-			packet.insert(packet.end(), serialNum.begin(), serialNum.end());
-			packet.push_back(uint8_t(sensors.size()));
-			packet.push_back(0);
-			uint32_t size = packet.size();
-			vector<uint8_t> s(4);
-			*((uint32_t*)s.data()) = size;
-			packet.insert(packet.begin(), s.begin(), s.end());
-			sendPacket(packet);
-			cout << serialNum << endl;
-		}
-		serialFile.close();
-	}
+	
 	return retVal;
 }
 
@@ -210,7 +153,7 @@ SlaveNetworking::sendStatus(const vector<Sensor*>& mySensors,uint8_t battery,boo
 	vector<uint8_t> s(4);
 	*((uint32_t*)s.data()) = size;
 	packet.insert(packet.begin(), s.begin(), s.end());
-	sendPacket(packet);
+	
 	return;
 }
 
@@ -245,5 +188,5 @@ SlaveNetworking::sendSensorList(const vector<Sensor*>& mySensors)
 	vector<uint8_t> s(4);
 	*((uint32_t*)s.data()) = size;
 	packet.insert(packet.begin(), s.begin(), s.end());
-	sendPacket(packet);
+	
 }

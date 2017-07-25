@@ -1,4 +1,4 @@
-#ifndef TEMP_SENSOR_H_
+/*#ifndef TEMP_SENSOR_H_
 #define TEMP_SENSOR_H_
 
 #include "Sensor.h"
@@ -14,4 +14,4 @@ private:
 	DS18B20 t_sensor;
 };
 
-#endif
+#endif*/

@@ -6,8 +6,8 @@ Slave::Slave()
 {
 	onBattery = false;
 	battery = 101;
-	sensors.push_back(new temp_sensor);
-	sensors[0]->setNumber(0);
+//	sensors.push_back(new temp_sensor);
+//	sensors[0]->setNumber(0);
 }
 
 

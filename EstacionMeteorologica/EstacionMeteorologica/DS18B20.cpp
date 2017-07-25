@@ -1,4 +1,4 @@
-#include "DS18B20.hpp"
+/*#include "DS18B20.hpp"
 #include <dirent.h>	//format of directory entries
 #include <fcntl.h>
 #include <math.h>
@@ -79,4 +79,4 @@ bool DS18B20::init_ok()
 double DS18B20::temp_C2F(double tempC)
 {
 	return 1.8*tempC+32;
-}
+}*/

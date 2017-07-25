@@ -1,4 +1,4 @@
-#include "temp_sensor.h"
+/*#include "temp_sensor.h"
 
 temp_sensor::temp_sensor()
 {
@@ -15,4 +15,4 @@ vector<uint8_t> temp_sensor::getData()
 }
 temp_sensor::~temp_sensor()
 {
-}
+}*/

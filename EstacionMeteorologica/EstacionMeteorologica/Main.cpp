@@ -10,9 +10,9 @@ int main(void)
 	Slave sensors;
 	sensors.init();
 	//monitor.init();
+	SlaveNetworking network;
 	while(quit ==false)
 	{
-		SlaveNetworking network;
 		network.init();				//check this, the slave networking makes a new of the event
 		while(network.hayEvento()==false);
 		Event in=network.getEvent();

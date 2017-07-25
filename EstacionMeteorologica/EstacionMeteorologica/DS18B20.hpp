@@ -1,4 +1,4 @@
-#ifndef DS18B20__H_
+/*#ifndef DS18B20__H_
 #define DS18B20__H_
 
 #include <string>
@@ -20,4 +20,4 @@ protected:
 
 	
 
-#endif //DS18B20__H_
+#endif //DS18B20__H_*/

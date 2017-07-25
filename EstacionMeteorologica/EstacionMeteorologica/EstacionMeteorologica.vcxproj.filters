@@ -28,12 +28,6 @@
     <Filter Include="Header Files\Slave">
       <UniqueIdentifier>{a26e9b27-5b6c-402d-bd3f-22fb1ab7a6a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Server">
-      <UniqueIdentifier>{a0ddbc0b-2787-49a1-8f75-fef127153bd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Server">
-      <UniqueIdentifier>{684bf5de-a0bd-4478-8431-8a22921a6571}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -50,12 +44,6 @@
     </ClCompile>
     <ClCompile Include="SlaveNetworking.cpp">
       <Filter>Source Files\Slave</Filter>
-    </ClCompile>
-    <ClCompile Include="Server.cpp">
-      <Filter>Source Files\Server</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerNetworking.cpp">
-      <Filter>Source Files\Server</Filter>
     </ClCompile>
     <ClCompile Include="temp_sensor.cpp">
       <Filter>Source Files</Filter>
@@ -83,16 +71,13 @@
     <ClInclude Include="SlaveNetworking.h">
       <Filter>Header Files\Slave</Filter>
     </ClInclude>
-    <ClInclude Include="Server.h">
-      <Filter>Header Files\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerNetworking.h">
-      <Filter>Header Files\Server</Filter>
-    </ClInclude>
     <ClInclude Include="temp_sensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DS18B20.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mosquitto.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

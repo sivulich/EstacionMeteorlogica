@@ -1,7 +1,7 @@
 #pragma once
 #include "Sensor.h"
 #include "Event.h"
-
+#include "mosquitto.hpp"
 
 class SlaveNetworking {
 public:
@@ -18,10 +18,12 @@ public:
 	void sendData(const vector<Sensor*>& mySensors);
 	void getUpdate();
 	void sendSensorList(const vector<Sensor*>& mySensors);
-	int sendPacket(const vector<uint8_t>& packet);
+	bool publish(const string& subTopic, const vector<uint8_t>& message);
 private:
 	//bool sendPacket(vector<uint8_t>& data);
 	Event ev;
 	uint16_t myId, toId;
 	uint32_t serverIp;
+	Mosquitto mosq;
+	string serial;
 };
