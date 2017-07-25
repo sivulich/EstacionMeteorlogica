@@ -23,7 +23,7 @@ SlaveNetworking::SlaveNetworking()
 		}
 		serialFile.close();
 	}
-	mosq.connect("192.168.1.43");
+	mosq.connect(BROKER);
 	mosq.subscribe("Control");
 	mosq.subscribe("Slaves/" + serial + "/Control");
 	vector<uint8_t> ser;
@@ -46,14 +46,6 @@ SlaveNetworking::publish(const string& subTopic, const vector<uint8_t>& message)
 	mosq.publish("Slaves/" + serial +"/"+ subTopic, message);
 	return true;
 }
-
-void
-SlaveNetworking::init()
-{
-	cout << "Initializing networking..." << endl;
-	
-}
-
 bool
 SlaveNetworking::hayEvento()
 {

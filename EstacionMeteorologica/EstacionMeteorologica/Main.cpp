@@ -13,7 +13,6 @@ int main(void)
 	SlaveNetworking network;
 	while(quit ==false)
 	{
-		network.init();				//check this, the slave networking makes a new of the event
 		while(network.hayEvento()==false);
 		Event in=network.getEvent();
 		switch (in.type())
