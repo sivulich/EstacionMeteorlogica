@@ -22,9 +22,6 @@
     <Filter Include="Source Files\Sensors">
       <UniqueIdentifier>{0a8823a3-683b-41c3-88a2-0343020356fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Slave">
-      <UniqueIdentifier>{a26e9b27-5b6c-402d-bd3f-22fb1ab7a6a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Networking">
       <UniqueIdentifier>{e9b93ae1-3006-49e7-a33d-0982bc0f8ed4}</UniqueIdentifier>
     </Filter>

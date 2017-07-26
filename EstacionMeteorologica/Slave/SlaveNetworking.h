@@ -16,7 +16,8 @@ public:
 	void sendData(const vector<Sensor*>& mySensors);
 	void getUpdate();
 	void sendSensorList(const vector<Sensor*>& mySensors);
-	bool publish(const string& subTopic, const vector<uint8_t>& message);
+	bool publish(const string& subTopic, const vector<uint8_t>& message, bool persitence);
+	void ping();
 private:
 	Event ev;
 	uint32_t serverIp;

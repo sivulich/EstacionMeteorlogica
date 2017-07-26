@@ -32,6 +32,8 @@ int main(void)
 			case REQUEST_SENSOR_LIST:
 				network.sendSensorList(sensors.getSensors());
 				break;
+			case PING:
+				network.ping();
 			default:
 				break;
 

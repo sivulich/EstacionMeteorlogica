@@ -30,20 +30,26 @@ SlaveNetworking::SlaveNetworking()
 	ser.insert(ser.end(), serial.begin(), serial.end());
 	mosq.publish("Welcome", ser);
 }
-
+void
+SlaveNetworking::ping()
+{
+	vector<uint8_t> ser;
+	ser.insert(ser.end(), serial.begin(), serial.end());
+	mosq.publish("Welcome", ser,false);
+}
 SlaveNetworking::~SlaveNetworking()
 {
 	vector<uint8_t> ser;
 	ser.insert(ser.end(), serial.begin(), serial.end());
-	mosq.publish("Goodbye", ser);
+	mosq.publish("Goodbye", ser,false);
 	mosq.close();
 	mosq.cleanup_library();
 }
 
 bool
-SlaveNetworking::publish(const string& subTopic, const vector<uint8_t>& message)
+SlaveNetworking::publish(const string& subTopic, const vector<uint8_t>& message,bool persitence)
 {
-	mosq.publish("Slaves/" + serial +"/"+ subTopic, message);
+	mosq.publish("Slaves/" + serial +"/"+ subTopic, message,persitence);
 	return true;
 }
 bool
@@ -75,6 +81,10 @@ SlaveNetworking::hayEvento()
 				break;
 			case 'R':
 				ev = RESET_SLAVE;
+				retval = true;
+				break;
+			case 'P':
+				ev = PING;
 				retval = true;
 				break;
 			default:
@@ -109,7 +119,7 @@ SlaveNetworking::sendData(const vector<Sensor*>& mySensors)
 	}
 	vector<uint8_t> a(1);
 	a[0] = active;
-	publish("Active", a);
+	publish("Active", a,true);
 	
 }
 
@@ -129,7 +139,7 @@ SlaveNetworking::sendStatus(const vector<Sensor*>& mySensors,uint8_t battery,boo
 	}
 	packet.push_back(active);
 	packet.push_back(0);
-	publish("Status", packet);
+	publish("Status", packet,true);
 	return;
 }
 
@@ -144,7 +154,6 @@ SlaveNetworking::sendSensorList(const vector<Sensor*>& mySensors)
 {
 	cout << "Sending sensor list" << endl;
 	vector<uint8_t> packet;
-	packet.reserve(5 + 1 + 53 * mySensors.size() +1); // 5 header + 1 for number of sensors + 53 *n maxsize for a sensor in the list + 1 the ending null char
 	for (auto& sen : mySensors)
 	{
 		for (auto& c : sen->getName())
@@ -154,6 +163,6 @@ SlaveNetworking::sendSensorList(const vector<Sensor*>& mySensors)
 		packet.push_back(sen->getActive());
 	}
 	packet.push_back(0);
-	publish("List", packet);
+	publish("List", packet,true);
 	
 }

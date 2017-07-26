@@ -149,30 +149,30 @@ void Mosquitto::loop(const bool tryReconnect) {
 
 	// XXX: Consider switching to mosquitto_loop_forever
 
-	const int ret = mosquitto_loop(this->mosq, 10000, 10);
-	if (!this->running) return;
+		const int ret = mosquitto_loop(this->mosq, 10000, 10);
+		if (!this->running) return;
 
-	if (ret != MOSQ_ERR_SUCCESS) {
+		if (ret != MOSQ_ERR_SUCCESS) {
 
-		// Sleep for some time, if necessary
-		if (errorCounter > 1) {
-			int duration = errorCounter*errorCounter;
-			if (duration > 60 || duration <= 0) duration = 60;
-			std::this_thread::sleep_for(std::chrono::milliseconds(duration));		// Wait some time before trying again
+			// Sleep for some time, if necessary
+			if (errorCounter > 1) {
+				int duration = errorCounter*errorCounter;
+				if (duration > 60 || duration <= 0) duration = 60;
+				std::this_thread::sleep_for(std::chrono::milliseconds(duration));		// Wait some time before trying again
+				
+			}
 
+			if (mosquitto_reconnect(mosq) == MOSQ_ERR_SUCCESS) {
+				// Reconnect successfull
+				
+			}
+			else {
+				// Reconnect failed. Increase counter
+				errorCounter++;
+			}
 		}
-
-		if (mosquitto_reconnect(mosq) == MOSQ_ERR_SUCCESS) {
-			// Reconnect successfull
-
-		}
-		else {
-			// Reconnect failed. Increase counter
-			errorCounter++;
-		}
-	}
-	else
-		errorCounter = 0;
+		else
+			errorCounter = 0;
 }
 
 void Mosquitto::cleanup_library() {
