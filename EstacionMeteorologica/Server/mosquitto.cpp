@@ -15,10 +15,22 @@ bool Mosquitto::newEvent()
 }
 void Mosquitto::unsubscribe(const string topic)
 {
-	mosquitto_unsubscribe(this->mosq, nullptr, topic.c_str());
+	mosquitto_unsubscribe(this->mosq, NULL, topic.c_str());
 }
-vector<uint8_t> Mosquitto::getMessage() { return message; };
-string Mosquitto::getTopic() { return topic; };
+vector<uint8_t>
+Mosquitto::getMessage() { return message; };
+string
+Mosquitto::getTopic() { return topic; };
+void
+Mosquitto::setWill(const string& topic, const vector<uint8_t>& message, bool retain)
+{
+	mosquitto_will_set(mosq, topic.c_str(), message.size(), message.data(),QOS, retain);
+}
+void
+Mosquitto::clearWIll()
+{
+	mosquitto_will_clear(mosq);
+}
 void
 Mosquitto::onMessage(std::string top, vector<uint8_t>& mes)
 {

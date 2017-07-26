@@ -3,7 +3,8 @@
 int main(void)
 {
 	ServerNetworking net;
-	while (1)
+	bool exit=false;
+	while (!exit)
 	{
 		net.handleEvents();
 	}

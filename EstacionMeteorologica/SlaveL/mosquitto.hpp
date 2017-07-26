@@ -40,6 +40,12 @@ public:
 	/** Set username and password for login */
 	void set_username_password(const char* username, const char* password);
 
+	/* Set will*/
+	void setWill(const string& topic, const vector<uint8_t>& message, bool retain=false);
+
+	/*Clear will*/
+	void clearWIll();
+
 	/** Disconnects the client */
 	void close();
 
@@ -67,10 +73,16 @@ public:
 	*@param tryReconnect if true, the client tries to reconnect if an error occurs */
 	void loop(const bool tryReconnect = true);
 
+	/*Unsuscribe from topic*/
 	void unsubscribe(const string topic);
 
+	/*Returns true if new message arrived*/
 	bool newEvent();
+
+	/*Returns the message*/
 	vector<uint8_t> getMessage();
+
+	/*Returns the topic of the message*/
 	string getTopic();
 	/** Cleanup mosquitto library. This call should be called before program termination */
 	static void cleanup_library();

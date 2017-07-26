@@ -2,7 +2,7 @@
 #include "mosquitto.hpp"
 #include "configs.h"
 #include "Sensor.h"
-#define BROKER "192.168.1.43"
+#define BROKER "192.168.1.41"
 
 class ServerNetworking
 {
@@ -10,8 +10,12 @@ public:
 	ServerNetworking();
 	vector<string> getSlaves() { return slaves; };
 	vector<Sensor> getSlaveList(string s) { if (sensorLists.find(s) != sensorLists.end()) return sensorLists[s]; return vector<Sensor>(); };
+	void sendDataReq(const string name="");
+	void sendStatusReq(const string name = "");
+	void sendEmergencyShutdown(const string name = "");
+	void sendReset(const string name = "");
 	void parseList(string name, vector<uint8_t> message);
-	void handleEvents();
+	bool handleEvents();
 	~ServerNetworking();
 private:
 	Mosquitto mosq;

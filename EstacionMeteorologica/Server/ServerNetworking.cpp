@@ -8,6 +8,7 @@ ServerNetworking::ServerNetworking()
 
 	mosq.subscribe("Welcome");
 	mosq.subscribe("Goodbye");
+	mosq.subscribe("ServerControl");
 	vector<uint8_t> m(1);
 	m[0] = 'P';
 	mosq.publish("Control", m, false);
@@ -16,8 +17,7 @@ ServerNetworking::ServerNetworking()
 void
 ServerNetworking::parseList(string nam,vector<uint8_t> message)
 {
-	int i = 1;
-	int n = message[0];
+	unsigned int i = 0;
 	bool name=true,type=false,active=false;
 	Sensor sen;
 	string sensorName;
@@ -53,7 +53,7 @@ ServerNetworking::parseList(string nam,vector<uint8_t> message)
 		i++;
 	}
 }
-void
+bool
 ServerNetworking::handleEvents()
 {
 	mosq.loop();
@@ -70,7 +70,7 @@ ServerNetworking::handleEvents()
 			needList.push_back(name);
 			mosq.subscribe("Slaves/" + name + "/List");
 			vector<uint8_t> m(1);
-			m[0] = 'S';
+			m[0] = 'L';
 			mosq.publish("Slaves/" + name + "/Control", m, false);
 			cout << "Slave " << name << " conected" << endl;
 		}
@@ -101,10 +101,59 @@ ServerNetworking::handleEvents()
 			for (auto& n : toDel)
 				needList.erase(find(needList.begin(), needList.end(), n));
 		}
+		if (topic == "ServerControl")
+		{
+			string comm;
+			for (auto c : message)
+				comm.push_back(c);
+			if (comm == "exit")
+				return true;
+		}
 		
 	}
+	return false;
 }
-
+void
+ServerNetworking::sendDataReq(const string name)
+{
+	vector<uint8_t> m(1);
+	m[0] = 'D';
+	if (name == "")
+		mosq.publish("Control", m, false);
+	else
+		mosq.publish("Slaves/" + name + "/Control", m, false);
+		
+}
+void
+ServerNetworking::sendEmergencyShutdown(const string name)
+{
+	vector<uint8_t> m(1);
+	m[0] = 'E';
+	if (name == "")
+		mosq.publish("Control", m, false);
+	else
+		mosq.publish("Slaves/" + name + "/Control", m, false);
+}
+void
+ServerNetworking::sendStatusReq(const string name)
+{
+	vector<uint8_t> m(1);
+	m[0] = 'S';
+	if (name == "")
+		mosq.publish("Control", m, false);
+	else
+		mosq.publish("Slaves/" + name + "/Control", m, false);
+}
+void
+ServerNetworking::sendReset(const string name)
+{
+	vector<uint8_t> m(1);
+	m[0] = 'R';
+	if (name == "")
+		mosq.publish("Control", m, false);
+	else
+		mosq.publish("Slaves/" + name + "/Control", m, false);
+}
 ServerNetworking::~ServerNetworking()
 {
 	mosq.close();

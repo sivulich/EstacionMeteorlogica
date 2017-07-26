@@ -68,7 +68,7 @@ SlaveNetworking::hayEvento()
 				ev = DATA_REQUEST;
 				retval = true;
 				break;
-			case 'S':
+			case 'L':
 				ev = REQUEST_SENSOR_LIST;
 				retval = true;
 				break;
@@ -76,7 +76,7 @@ SlaveNetworking::hayEvento()
 				ev = EMERGENCY_SHUTDOWN;
 				retval = true;
 				break;
-			case 'T':
+			case 'S':
 				ev = GET_STATUS;
 				retval = true;
 				break;
@@ -156,7 +156,6 @@ SlaveNetworking::sendSensorList(const vector<Sensor*>& mySensors)
 {
 	cout << "Sending sensor list" << endl;
 	vector<uint8_t> packet;
-	packet.push_back(mySensors.size());
 	for (auto& sen : mySensors)
 	{
 		for (auto& c : sen->getName())
