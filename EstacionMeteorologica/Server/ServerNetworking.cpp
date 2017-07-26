@@ -8,6 +8,10 @@ ServerNetworking::ServerNetworking()
 
 	mosq.subscribe("Welcome");
 	mosq.subscribe("Goodbye");
+	vector<uint8_t> m(1);
+	m[0] = 'P';
+	mosq.publish("Control", m, false);
+	cout << "Server Up" << endl;
 }
 void
 ServerNetworking::parseList(string nam,vector<uint8_t> message)
@@ -46,6 +50,7 @@ ServerNetworking::parseList(string nam,vector<uint8_t> message)
 			name = true;
 			active = false;
 		}
+		i++;
 	}
 }
 void
@@ -64,6 +69,10 @@ ServerNetworking::handleEvents()
 			slaves.push_back(name);
 			needList.push_back(name);
 			mosq.subscribe("Slaves/" + name + "/List");
+			vector<uint8_t> m(1);
+			m[0] = 'S';
+			mosq.publish("Slaves/" + name + "/Control", m, false);
+			cout << "Slave " << name << " conected" << endl;
 		}
 		if (topic == "Goodbye")
 		{
@@ -72,6 +81,7 @@ ServerNetworking::handleEvents()
 				name.push_back(c);
 			slaves.erase(find(slaves.begin(), slaves.end(), name));
 			sensorLists.erase(name);
+			cout << "Slave " << name << " disconected" << endl;
 		}
 		if (needList.size() > 0)
 		{
@@ -81,7 +91,11 @@ ServerNetworking::handleEvents()
 				if (topic == "Slaves/" + n + "/List")
 				{
 					parseList(n, message);
+					cout << "Slave " << n << " sent his sensor list:" << endl;
+					for (auto& s : sensorLists[n])
+						cout << "- " << s.getName() << endl;
 					toDel.push_back(n);
+					mosq.unsubscribe("Slaves/" + n + "/List");
 				}
 			}
 			for (auto& n : toDel)

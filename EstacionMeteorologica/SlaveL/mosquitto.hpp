@@ -21,9 +21,9 @@ using namespace std;
 class Mosquitto {
 private:
 	struct mosquitto *mosq;
-	
+
 	volatile bool running;
-	
+
 public:
 	Mosquitto();
 	virtual ~Mosquitto();

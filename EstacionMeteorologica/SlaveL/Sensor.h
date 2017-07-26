@@ -1,7 +1,7 @@
 #pragma once
 #include "configs.h"
 
-enum {INT=1,LONG,LONG_LONG,UINT,LONG_UINT,LONG_LONG_UINT,FLOAT,DOUBLE};
+enum { INT = 1, LONG, LONG_LONG, UINT, LONG_UINT, LONG_LONG_UINT, FLOAT, DOUBLE };
 class Sensor
 {
 public:
@@ -25,4 +25,5 @@ protected:
 	uint8_t active;
 	vector<uint8_t> data;
 };
+
 

@@ -27,9 +27,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{fdd5b026-791c-49aa-b710-cafb5497ae83}</ProjectGuid>
+    <ProjectGuid>{a3fa0fc3-8910-432e-bbb8-d7530b8cb5b8}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>Server</RootNamespace>
+    <RootNamespace>SlaveL</RootNamespace>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -61,42 +61,37 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="BMP180.cpp" />
+    <ClCompile Include="DS18B20.cpp" />
+    <ClCompile Include="GPIO.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="mosquitto.cpp" />
     <ClCompile Include="Sensor.cpp" />
-    <ClCompile Include="ServerNetworking.cpp" />
+    <ClCompile Include="Slave.cpp" />
+    <ClCompile Include="SlaveNetworking.cpp" />
+    <ClCompile Include="temp_sensor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BMP180.h" />
     <ClInclude Include="configs.h" />
+    <ClInclude Include="DS18B20.hpp" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="GPIO.h" />
     <ClInclude Include="mosquitto.hpp" />
     <ClInclude Include="Sensor.h" />
-    <ClInclude Include="ServerNetworking.h" />
+    <ClInclude Include="Slave.h" />
+    <ClInclude Include="SlaveNetworking.h" />
+    <ClInclude Include="temp_sensor.h" />
   </ItemGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\mosquitto\devel;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\mosquitto\devel;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
       <AdditionalOptions>-lmosquitto %(AdditionalOptions)</AdditionalOptions>
     </Link>
-    <ClCompile>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\mosquitto\devel;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <Link>
       <AdditionalOptions>-lmosquitto %(AdditionalOptions)</AdditionalOptions>
     </Link>
-    <ClCompile>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\mosquitto\devel;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

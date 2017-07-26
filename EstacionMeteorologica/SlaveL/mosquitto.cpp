@@ -15,7 +15,7 @@ bool Mosquitto::newEvent()
 }
 void Mosquitto::unsubscribe(const string topic)
 {
-	mosquitto_unsubscribe(this->mosq, nullptr, topic.c_str());
+	mosquitto_unsubscribe(this->mosq, NULL, topic.c_str());
 }
 vector<uint8_t> Mosquitto::getMessage() { return message; };
 string Mosquitto::getTopic() { return topic; };
