@@ -3,7 +3,7 @@
 #include "Event.h"
 #include "mosquitto.hpp"
 
-#define BROKER "192.168.1.41"
+#define BROKER "192.168.1.43"
 
 class SlaveNetworking {
 public:

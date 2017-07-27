@@ -8,7 +8,7 @@ ServerNetworking::ServerNetworking()
 
 	mosq.subscribe("Welcome");
 	mosq.subscribe("Goodbye");
-	mosq.subscribe("ServerControl");
+	mosq.subscribe("Server/Control");
 	vector<uint8_t> m(1);
 	m[0] = 'P';
 	mosq.publish("Control", m, false);
@@ -101,7 +101,7 @@ ServerNetworking::handleEvents()
 			for (auto& n : toDel)
 				needList.erase(find(needList.begin(), needList.end(), n));
 		}
-		if (topic == "ServerControl")
+		if (topic == "Server/Control")
 		{
 			string comm;
 			for (auto c : message)

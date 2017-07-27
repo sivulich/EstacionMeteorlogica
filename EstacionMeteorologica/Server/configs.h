@@ -16,4 +16,5 @@
 #include <queue>
 #include <chrono>
 #include <algorithm>
+#define SERVER_DATA_INTERVAL 5
 using namespace std;

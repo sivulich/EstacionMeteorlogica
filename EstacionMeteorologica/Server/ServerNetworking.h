@@ -2,7 +2,7 @@
 #include "mosquitto.hpp"
 #include "configs.h"
 #include "Sensor.h"
-#define BROKER "192.168.1.41"
+#define BROKER "192.168.1.43"
 
 class ServerNetworking
 {
