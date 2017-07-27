@@ -34,6 +34,10 @@ int main(void)
 				break;
 			case PING:
 				network.ping();
+				break;
+			case DISCONNECT:
+				quit = true;
+				break;
 			default:
 				break;
 

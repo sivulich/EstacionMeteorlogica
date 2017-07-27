@@ -23,13 +23,17 @@ SlaveNetworking::SlaveNetworking()
 		}
 		serialFile.close();
 	}
+	vector<uint8_t> ser;
+	ser.insert(ser.end(), serial.begin(), serial.end());
+	mosq.setWill("Goodbye", ser);
 	mosq.connect(BROKER);
 	mosq.subscribe("Control");
 	mosq.subscribe("Slaves/" + serial + "/Control");
-	vector<uint8_t> ser;
-	ser.insert(ser.end(), serial.begin(), serial.end());
+	
+	
 	mosq.publish("Welcome", ser,false);
 	cout << "Slave UP" << endl;
+	
 }
 void
 SlaveNetworking::ping()
@@ -86,6 +90,10 @@ SlaveNetworking::hayEvento()
 				break;
 			case 'P':
 				ev = PING;
+				retval = true;
+				break;
+			case 'Q':
+				ev = DISCONNECT;
 				retval = true;
 				break;
 			default:
@@ -164,7 +172,7 @@ SlaveNetworking::sendSensorList(const vector<Sensor*>& mySensors)
 		packet.push_back(sen->getType());
 		packet.push_back(sen->getActive());
 	}
-	packet.push_back(0);
+	//packet.push_back(0);
 	publish("List", packet,true);
 	
 }

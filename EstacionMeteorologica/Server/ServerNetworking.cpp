@@ -66,13 +66,24 @@ ServerNetworking::handleEvents()
 			string name;
 			for (auto c : message)
 				name.push_back(c);
-			slaves.push_back(name);
-			needList.push_back(name);
-			mosq.subscribe("Slaves/" + name + "/List");
-			vector<uint8_t> m(1);
-			m[0] = 'L';
-			mosq.publish("Slaves/" + name + "/Control", m, false);
-			cout << "Slave " << name << " conected" << endl;
+			if (find(slaves.begin(), slaves.end(), name) != slaves.end())
+			{
+				vector<uint8_t> m(1);
+				m[0] = 'Q';
+				mosq.publish("Slaves/" + name + "/Control", m, false);
+				cout << "Duplicate of " << name << " tried to conect, kicking duplicates" << endl;
+			}
+			else
+			{
+				slaves.push_back(name);
+				needList.push_back(name);
+				mosq.subscribe("Slaves/" + name + "/List");
+				vector<uint8_t> m(1);
+				m[0] = 'L';
+				mosq.publish("Slaves/" + name + "/Control", m, false);
+				cout << "Slave " << name << " conected" << endl;
+			}
+			
 		}
 		if (topic == "Goodbye")
 		{
