@@ -1,15 +1,15 @@
 #pragma once
 #include "mosquitto.hpp"
 #include "configs.h"
-#include "Sensor.h"
-#define BROKER "192.168.1.43"
+#include "RemoteSensor.h"
+#define BROKER "192.168.1.33"
 
 class ServerNetworking
 {
 public:
 	ServerNetworking();
 	vector<string> getSlaves() { return slaves; };
-	vector<Sensor> getSlaveList(string s) { if (sensorLists.find(s) != sensorLists.end()) return sensorLists[s]; return vector<Sensor>(); };
+	vector<RemoteSensor> getSlaveList(string s) { if (sensorLists.find(s) != sensorLists.end()) return sensorLists[s]; return vector<RemoteSensor>(); };
 	void sendDataReq(const string name="");
 	void sendStatusReq(const string name = "");
 	void sendEmergencyShutdown(const string name = "");
@@ -20,7 +20,7 @@ public:
 private:
 	Mosquitto mosq;
 	vector<string> slaves;
-	map<string, vector<Sensor>> sensorLists;
+	map<string, vector<RemoteSensor>> sensorLists;
 	list<string> needList;
 };
 

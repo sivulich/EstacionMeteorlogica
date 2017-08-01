@@ -21,6 +21,7 @@
     <ClCompile Include="Sensor.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="RemoteSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mosquitto.hpp">
@@ -35,5 +36,6 @@
     <ClInclude Include="Sensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RemoteSensor.h" />
   </ItemGroup>
 </Project>

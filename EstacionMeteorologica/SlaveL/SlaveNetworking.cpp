@@ -148,7 +148,6 @@ SlaveNetworking::sendStatus(const vector<Sensor*>& mySensors,uint8_t battery,boo
 			active++;
 	}
 	packet.push_back(active);
-	packet.push_back(0);
 	publish("Status", packet,true);
 	return;
 }

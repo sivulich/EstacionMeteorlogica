@@ -65,12 +65,14 @@
     <ClCompile Include="mosquitto.cpp" />
     <ClCompile Include="Sensor.cpp" />
     <ClCompile Include="ServerNetworking.cpp" />
+    <ClCompile Include="RemoteSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="configs.h" />
     <ClInclude Include="mosquitto.hpp" />
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="ServerNetworking.h" />
+    <ClInclude Include="RemoteSensor.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>

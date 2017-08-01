@@ -19,7 +19,7 @@ ServerNetworking::parseList(string nam,vector<uint8_t> message)
 {
 	unsigned int i = 0;
 	bool name=true,type=false,active=false;
-	Sensor sen;
+	RemoteSensor sen;
 	string sensorName;
 	sensorLists[nam].clear();
 	while (i < message.size())
