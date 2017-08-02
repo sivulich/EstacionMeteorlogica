@@ -13,6 +13,7 @@ public:
 	void sendDataReq(const string name="");
 	void sendStatusReq(const string name = "");
 	void sendEmergencyShutdown(const string name = "");
+	void sendListReq(const string name = "");
 	void sendReset(const string name = "");
 	void parseList(string name, vector<uint8_t> message);
 	bool handleEvents();

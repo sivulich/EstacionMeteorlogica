@@ -7,10 +7,11 @@ class Sensor
 public:
 	Sensor();
 	virtual ~Sensor();
-	vector<uint8_t> getData() { return data; };
+	virtual vector<uint8_t> getData();
+	virtual bool tryUpdateData();
 	uint8_t getType();
-	uint8_t getActive() { return active; };
-	string getName() { return name; };
+	uint8_t getActive();
+	string getName();
 protected:
 	string name;
 	uint8_t sensor_number;

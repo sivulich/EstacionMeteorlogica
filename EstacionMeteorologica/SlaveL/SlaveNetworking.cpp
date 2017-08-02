@@ -121,10 +121,15 @@ SlaveNetworking::sendData(const vector<Sensor*>& mySensors)
 	uint8_t active=0;
 	for (auto& sen : mySensors)
 	{
-		if (sen->getActive() == 1)
+		if (sen->getActive() == true)
 		{
 			active++;
-			publish(sen->getName(), sen->getData(),true);
+			if (sen->tryUpdateData() == true)
+			{
+				vector<uint8_t> data = sen->getData();
+				if (data.size() > 0)
+					publish(sen->getName(), sen->getData(), true);
+			}
 		}
 	}
 	vector<uint8_t> a(1);

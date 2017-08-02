@@ -106,7 +106,6 @@ ServerNetworking::handleEvents()
 					for (auto& s : sensorLists[n])
 						cout << "- " << s.getName() << endl;
 					toDel.push_back(n);
-					mosq.unsubscribe("Slaves/" + n + "/List");
 				}
 			}
 			for (auto& n : toDel)
@@ -123,6 +122,16 @@ ServerNetworking::handleEvents()
 		
 	}
 	return false;
+}
+void
+ServerNetworking::sendListReq(const string name)
+{
+	vector<uint8_t> m(1);
+	m[0] = 'L';
+	if (name == "")
+		mosq.publish("Control", m, false);
+	else
+		mosq.publish("Slaves/" + name + "/Control", m, false);
 }
 void
 ServerNetworking::sendDataReq(const string name)

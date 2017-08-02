@@ -15,3 +15,6 @@ Sensor::getType()
 {
 	return this->data_type;
 }
+
+uint8_t Sensor::getActive() { return active; };
+string Sensor::getName() { return name; };
